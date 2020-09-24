@@ -7,12 +7,22 @@ use App\Book;
 
 class BookController extends Controller {
 	public function index(){
-		if(request()->has("sort")){
-			$books = Book::orderBy(request()->query("sort"), "asc")->paginate(15);
+		if(request()->has("id")){
+			$book = Book::find(request()->query("id"));
 		}else{
-			$books = Book::paginate(15);
+			$book = Book::first();
 		}
 
-		return view("table", ["books"=> $books]);
+		return view("book", ["book"=> $book]);
+	}
+
+	public function table(){
+
+		$books = Book::query();
+		if(request()->has("sort")){
+			$books->orderBy(request()->query("sort"), request()->query("asc") ? "asc" : "desc")->paginate(15);
+		}
+
+		return view("table", ["books"=> $books->paginate(15), "asc" => request()->query("asc")]);
 	}
 }

@@ -7,4 +7,6 @@ Route::get('/', function () {
     return view('welcome', ["name" => "Martin"]);
 });
 
-Route::get('/table', [BookController::class, "index"]);
+Route::get('/table', [BookController::class, "table"]);
+
+Route::get('/book', [BookController::class, "index"]);
